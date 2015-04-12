@@ -1,0 +1,41 @@
+package package1;
+
+import static org.junit.Assert.*;
+import junit.framework.Assert;
+
+import org.junit.Test;
+
+public class StudentTest {
+    /***************************************************
+     * Testing getters and setters in the student class
+     **************************************************/
+	@Test
+	public void testStudentClass() {
+		Student m = new Student("Leo", "G01207311", 3.88);
+		String na = m.getName();
+		String gn = m.getGNumber();
+		double n = (double) m.getGpa();
+		//String number = n.toString();
+		String s = na + " " + gn + " ";
+		System.out.println(s);
+		m.setGNumber("G012743");
+		gn = m.getGNumber();
+		Assert.assertEquals(gn,new String("G012743") );
+		s = na + " " + gn + " ";
+	    System.out.println(s);
+	}
+	/*************************************************
+	 * Testing the display method of student objects
+	 *************************************************/
+	@Test
+	public void testDisplay(){
+	    SimpleDatabase data = new SimpleDatabase();
+	    Student nu = new Student("Gloire", "G01340", 4.5);
+	    Student leo  = new Student("Leo", "G1022", 2.33);
+	    data.insert(nu);
+	    data.insert(leo);
+	    String v = data.display();
+	    System.out.println(v);
+	}
+
+}
