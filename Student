@@ -1,0 +1,79 @@
+package package1;
+/*********************************************
+ * @author Gloire Rubambiza & Recod Rekodeo
+ *@version 03/29/2015
+ *Class that instantiates all student data
+ ********************************************/
+
+public class Student implements Comparable<Student> {
+	/**The student's name*/
+	private String name;
+
+	/** The student's unique gnumber*/
+	private String gNumber;
+
+	/**The student's current gpa */
+	private double gpa;
+
+	/**********************************
+	 * Constructor for student objects
+	 * 
+	 */
+	public Student( String pname, String pgnumber, double pgpa){
+		name = pname;
+		gNumber = pgnumber;
+		gpa = pgpa;
+	}
+
+	/*****************************
+	 * Getter and setter methods
+	 *****************************/
+	public String getName(){
+		return name;
+	}
+
+	public String getGNumber(){
+		return gNumber;
+	}
+
+	public double getGpa(){
+		return gpa;
+	}
+
+	public void setName(String pname){
+		name = pname;
+	}
+
+	public void setGNumber( String pgnumber){
+		gNumber = pgnumber;
+	}
+
+	public void setGpa( double pgpa){
+		gpa = pgpa;
+	}
+
+	/*************************************************
+	 * Method implemented with the CompareTo interface
+	 * Compares the info of two distinct students
+	 * @param compare the student to be compared 
+	 * @return an integer to indicate similarity
+	 *************************************************/
+	public int compareTo(Student compare) {
+		if(compare.getName().compareTo(name) > 0 ){
+			return 1;
+		}
+		if(compare.getName().compareTo(name) < 0 ){
+		    return -1;
+		}
+		if(compare.getGNumber().compareTo(gNumber)> 0)
+			return 1;
+		if (compare.getGNumber().compareTo(gNumber) < 0)
+			return -1;
+		if (compare.getGpa() < gpa)
+			return -1;
+		if(compare.getGpa() > gpa)
+			return 1;
+		return 0;
+	}
+	   
+}
