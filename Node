@@ -1,0 +1,60 @@
+package package1;
+/********************************************
+ * 
+ *@author Gloire Rubambiza & Recod Rekodeo
+ *@version 03/30/2015
+ *Class that instantiates nodes in the list
+ ********************************************/
+public class Node {
+
+	/** Student object that creates each new entry*/
+	public Student data;
+
+	/** Pointer to the next student object in the list */
+	public Node next;
+
+	/**************************************************
+	 * Constructor for node objects
+	 * Creates , instantiates, and adds student objects
+	 **************************************************/
+	public Node(Student pstudent, Node pnext){
+		data = pstudent;
+		next = pnext; //Pointer to the next filled object
+	}
+
+	/********************************
+	 * Constructor for node objects
+	 * Creates null nodes
+	 *******************************/
+	public Node(Student d){
+		data = d; // empty node (Student object)  
+		next = null; // Pointer to the the next student object                            
+	}
+
+	public Node(){
+		data = null;
+		next = null;
+	}
+	
+	/************************************
+	 * Getter and setter method for nodes
+	 ************************************/
+	public Node getNext() {
+		return next;
+	}
+
+	public void setNext(Node next) {
+		this.next = next;
+	}
+
+	/***************************
+	 * Getter and setter method
+	 ***************************/
+	public Student getCurrentStudent(){
+		return data;
+	}
+
+	public void setCurrentStudent(Student pstudent){
+		data = pstudent;
+	}
+}
