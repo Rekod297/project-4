@@ -1,0 +1,266 @@
+package package1;
+
+import java.util.*;
+import java.util.LinkedList;
+
+/*****************************************************
+ * @author Gloire Rubambiza & Recod Rekodeo
+ *@version 04/08/2015
+ *Class that handles all list operations
+ *Implements all methods of ISimpleDatabase interface
+ *****************************************************/
+
+
+public class SimpleDatabase implements ISimpleDatabase{
+	/**Linkedlist of nodes */
+	private LinkedList link;
+
+	/**A temporary linked list for reversing the list */
+	private LinkedList <Node> reversetemp = new LinkedList<Node>();
+
+	/**The initial node that creates all other nodes */
+	private Node node;
+
+
+	/****************************************************
+	 * Constructor for SimpleDatabase
+	 * Objects from the class are to be used for testing
+	 * @param plink reference to an existing LinkedList
+	 * @param pnode a node in the existing LinkedList
+	 ****************************************************/
+	public SimpleDatabase(LinkedList plink, Node pnode){
+		link = plink; // Can be given an already-existing linkedlist as parameter
+		node = pnode;
+	}
+
+	/****************************************************
+	 * Constructor for SimpleDatabase
+	 * Objects from the class are to be used for testing
+	 * Instantiates a new LinkedList of nodes
+	 ****************************************************/
+	public SimpleDatabase(){
+		link = new LinkedList();
+		node = new Node();
+	}
+
+	@Override
+	/************************************************
+	 * Method that inserts student info into a node
+	 * Unless empty, add the record at the end
+	 * @param student the student to be inserted
+	 ***********************************************/
+	public void insert(Student student){
+		Node n = new Node(student);
+		if( link.getCount() == 0){
+			link.setHead(n);
+			link.setTail(n);
+			link.setCount(link.getCount()+1);
+		}
+		else{
+			Node temp = link.getHead();
+			while(temp.getNext() != null){
+				if(temp.getNext().getNext() == null){
+					temp.getNext().getNext().setNext(n); //Point the tail to the new node
+					temp = null;
+					link.setCount(link.getCount()+1);
+					break;
+				}
+				temp = temp.getNext();
+			}
+
+		}
+	}
+	/*public void insert(Student student) {
+		Node n = new Node(student);
+
+		if( link.getCount() == 0){
+			link.setHead(n);
+			link.setTail(n);
+			link.setCount(link.getCount()+1);
+		}
+		if(student.compareTo(link.getHead().getCurrentStudent()) == -1){
+			n.setNext(link.getHead());
+			link.setHead(n);
+		}
+		else{
+			Node temp = link.getHead();
+			while( temp.getNext() != null)
+				if(student.compareTo(temp.getNext().getCurrentStudent())== -1){
+					n.setNext(temp.getNext());
+					temp.setNext(n);
+					link.setCount(link.getCount()+1);
+				}
+			temp = temp.getNext();
+
+		}
+		if(n.getNext() == null){
+			link.getTail().setNext(n);
+			link.setTail(n);
+		}
+	}*/
+
+	@Override
+	/************************************************************
+	 * Method that deletes a student record from the linked list
+	 * Uses a gNumber to find the node to be deleted
+	 * @param gNumber the number to compare against
+	 ************************************************************/
+	public boolean delete(String gNumber) {
+		if (link.getCount() == 0){
+			return false;
+		}
+		Node temp = link.getHead();
+		while(temp.getNext() != null){
+			if (temp.getNext().getCurrentStudent().getGNumber().compareTo(gNumber) == 0){
+				Node breaklink = temp.getNext(); 
+				temp.setNext(temp.getNext().getNext()); //point temp to the second node down
+				breaklink.setNext(null); //expose the node to garbage collector
+				break;
+			}
+			temp = temp.getNext();
+		}
+		return true;
+	}
+
+	@Override
+	/*******************************************************
+	 * Method to find a unique student in the LinkedList
+	 * Uses a gNumber to find the student
+	 * @param gNumber the unique student identifying number
+	 ******************************************************/
+	public Student find(String gNumber) {
+		Node temp = link.getHead();
+		while(temp.getNext() != null){
+			if(temp.getNext().getCurrentStudent().getGNumber().compareTo(gNumber)== 0){
+				return temp.getNext().getCurrentStudent();
+			}
+		}
+
+		return null;
+	}
+
+
+	@Override
+	/*******************************************************
+	 * Method to sort the students in the LinkedList by name
+	 * Calls the compareTo method in the Student class
+	 *******************************************************/
+	public void Sort() {
+		if(link.getCount()== 0){
+			System.out.println("There's no data to sort");
+			return;
+		}
+		else{
+			Node temp = link.getHead();
+			Node templink = temp.getNext();
+			while(temp.getNext() != null){
+				if(temp.getNext().getCurrentStudent().
+						compareTo(temp.getCurrentStudent()) == -1){
+					Node templink2 = temp;
+					templink2.setNext(templink.getNext());
+					templink.setNext(templink2);
+					if(temp == link.getHead()){
+						link.setHead(templink);
+					}
+					else{
+						temp.setNext(null);
+					}
+				}
+				temp = temp.getNext();
+			}
+		}
+	}
+
+	@Override
+	public boolean update(String gNumber, Student student) {
+
+		return false;
+	}
+
+
+	public String display(){
+		String d = "";
+		Node temp = link.getHead();
+		while(temp.getNext() != null){
+			String name = temp.getCurrentStudent().getName();
+			String gnumber = temp.getCurrentStudent().getGNumber();
+			double gpa =temp.getCurrentStudent().getGpa();
+			d += name + " " + gnumber + " " + "\n";
+		}
+		return d;
+	}
+
+	@Override
+	/***************************************************************
+	 * Method to reserve the list of nodes
+	 * Students objects are reversed opposite of alphabetical order 
+	 ***************************************************************/
+	public void reverseList() {
+		if (link.getCount() ==0){
+			System.out.println("There is no data to sort");
+		}
+		else{
+			Node temp = link.getHead();
+			Node templink2 = temp.getNext();
+			while(temp.getNext() != null){
+				temp.getNext().getNext()
+			}
+		}
+
+		/*Node temp = link.getHead();
+		while(temp.getNext() != null){
+			Node reflink                 //The node that insures continuity of the list
+			temp.getNext()
+			temp = temp.getNext();
+		}
+		for(Node thisEntry : link) {
+			reversetemp.addFirst(thisEntry);
+		}
+		link = reversetemp;*/
+	}
+
+	@Override
+	/******************************************************
+	 * Method that removes all duplicates from the list
+	 * Only one copy of the duplicates is left in the list
+	 *****************************************************/
+	public void removeDuplicates() {
+		if(link.getCount() == 0){
+			System.out.println("There's nothing in the database");
+		}
+		else{
+			Node temp = link.getHead();
+			Node nextnode = temp.getNext();
+			while(temp.getNext() != null){
+				if(temp.getCurrentStudent().compareTo(temp.getNext().getCurrentStudent()) == 0){
+					temp.setNext(nextnode.getNext()); // Skip over next node and point to the following one
+					temp = nextnode.getNext(); // Move temp two nodes node
+					nextnode.setNext(null); // break link of duplicate
+				}
+				else{
+					temp = temp.getNext();
+				}
+
+			}
+		}
+
+	}
+
+
+	@Override
+	public boolean undo() {
+     // To be filled with Recod's code
+		return false;
+	}
+
+	@Override
+	public void loadDB(String fileName) {
+		// To be filled with Recod's code
+	}
+
+	@Override
+	public void saveDB(String fileName) {
+		// To be filled with Recod's code
+	}
+
+}
