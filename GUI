@@ -1,6 +1,133 @@
-package package1;
+package project_blah;
 
-public class GUISimpleDataBase {
+import javax.swing.JFrame;
+import javax.swing.JTextField;
+import javax.swing.JLabel;
+import javax.swing.JTextPane;
+import javax.swing.JButton;
 
+public class Gui  extends JFrame{
+	private JTextField textField;
+	private JTextField name_field;
+	private JTextField G_number_Field;
+	private JTextField GPA_txt;
+	public Gui() {
+		
+		setWindow();
+	}
+	
+	
+	private void setWindow(){
+		getContentPane().setLayout(null);
+		
+		textField = new JTextField();
+		textField.setBounds(0, 0, 546, 26);
+		getContentPane().add(textField);
+		textField.setColumns(10);
+		
+		JLabel lblName = new JLabel("Name");
+		lblName.setBounds(10, 50, 69, 20);
+		getContentPane().add(lblName);
+		
+		JLabel lblGnumber = new JLabel("G-number");
+		lblGnumber.setBounds(10, 105, 100, 20);
+		getContentPane().add(lblGnumber);
+		
+		JLabel lblGpa = new JLabel("GPA");
+		lblGpa.setBounds(10, 141, 69, 20);
+		getContentPane().add(lblGpa);
+		
+		JTextPane display_panel = new JTextPane();
+		display_panel.setBounds(0, 238, 546, 74);
+		getContentPane().add(display_panel);
+		
+		name_field = new JTextField();
+		name_field.setBounds(107, 44, 146, 26);
+		getContentPane().add(name_field);
+		name_field.setColumns(10);
+		
+		G_number_Field = new JTextField();
+		G_number_Field.setBounds(107, 93, 146, 26);
+		getContentPane().add(G_number_Field);
+		G_number_Field.setColumns(10);
+		
+		GPA_txt = new JTextField();
+		GPA_txt.setBounds(107, 135, 146, 26);
+		getContentPane().add(GPA_txt);
+		GPA_txt.setColumns(10);
+		
+		JButton btnInsert = new JButton("Insert");
+		btnInsert.setBounds(268, 46, 115, 29);
+		getContentPane().add(btnInsert);
+		
+		JButton btnFind = new JButton("Find");
+		btnFind.setBounds(268, 92, 115, 29);
+		getContentPane().add(btnFind);
+		
+		JButton btnDuplicate = new JButton("Duplicate");
+		btnDuplicate.setBounds(268, 137, 115, 29);
+		getContentPane().add(btnDuplicate);
+		
+		JButton btnDelete = new JButton("Delete");
+		btnDelete.setBounds(398, 46, 115, 29);
+		getContentPane().add(btnDelete);
+		
+		JButton btnReverse = new JButton("Reverse");
+		btnReverse.setBounds(398, 92, 115, 29);
+		getContentPane().add(btnReverse);
+		
+		JButton btnDisplay = new JButton("Display");
+		btnDisplay.setBounds(398, 137, 115, 29);
+		getContentPane().add(btnDisplay);
+		
+		JButton btnLoad = new JButton("Load");
+		btnLoad.setBounds(268, 178, 115, 29);
+		getContentPane().add(btnLoad);
+		
+		JButton btnSave = new JButton("Save");
+		btnSave.setBounds(398, 182, 115, 29);
+		getContentPane().add(btnSave);
+	}
+	
+	
+	textField = new JTextField();
+	
+	JLabel lblName = new JLabel("Name");
+	
+	JLabel lblGnumber = new JLabel("G-number");
+	
+	JLabel lblGpa = new JLabel("GPA");
+	
+	JTextPane display_panel = new JTextPane();
+	
+	
+	name_field = new JTextField();
+	
+	
+	G_number_Field = new JTextField();
+	
+	
+	GPA_txt = new JTextField();
+	
+	JButton btnInsert = new JButton("Insert");
+	
+	
+	JButton btnFind = new JButton("Find");
+	
+	JButton btnDuplicate = new JButton("Duplicate");
+	
+	JButton btnDelete = new JButton("Delete");
+	
+	JButton btnReverse = new JButton("Reverse");
+	
+	JButton btnDisplay = new JButton("Display");
+	
+	JButton btnLoad = new JButton("Load");
+	
+	
+	JButton btnSave = new JButton("Save");
+	
+	
 }
+
 
