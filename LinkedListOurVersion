@@ -1,0 +1,39 @@
+package package1;
+
+import java.io.Serializable;
+/*********************************************
+ * Class that creates the list of nodes
+ * Instantiates the head and tails of the list
+ * @author Gloire Rubambiza & Recod Rekodeo
+ **********************************************/
+public class LinkedList implements Serializable {
+	private int count;
+	private Node head;
+	private Node tail;
+	
+	public LinkedList(Node head, Node tail){
+		this.head = head;
+		this.tail = tail;
+	}
+
+	public int getCount() {
+		return count;
+	}
+	public void setCount(int count) {
+		this.count = count;
+	}
+	public Node getHead() {
+		return head;
+	}
+	public void setHead(Node head) {
+		this.head = head;
+	}
+	public Node getTail() {
+		return tail;
+	}
+	public void setTail(Node tail) {
+		this.tail = tail;
+	}
+
+
+}
