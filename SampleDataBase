@@ -13,13 +13,14 @@ import java.util.LinkedList;
 
 public class SimpleDatabase implements ISimpleDatabase{
 	/**Linkedlist of nodes */
-	private LinkedList link;
+	private package1.LinkedList link;
 
 	/**A temporary linked list for reversing the list */
-	private LinkedList <Node> reversetemp = new LinkedList<Node>();
+	private java.util.LinkedList <Node> reversetemp = new java.util.LinkedList<Node>();
 
 	/**The initial node that creates all other nodes */
 	private Node node;
+	
 
 
 	/****************************************************
@@ -28,7 +29,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 	 * @param plink reference to an existing LinkedList
 	 * @param pnode a node in the existing LinkedList
 	 ****************************************************/
-	public SimpleDatabase(LinkedList plink, Node pnode){
+	public SimpleDatabase(package1.LinkedList plink, Node pnode){
 		link = plink; // Can be given an already-existing linkedlist as parameter
 		node = pnode;
 	}
@@ -39,7 +40,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 	 * Instantiates a new LinkedList of nodes
 	 ****************************************************/
 	public SimpleDatabase(){
-		link = new LinkedList();
+		link = new package1.LinkedList();
 		node = new Node();
 	}
 
@@ -51,53 +52,9 @@ public class SimpleDatabase implements ISimpleDatabase{
 	 ***********************************************/
 	public void insert(Student student){
 		Node n = new Node(student);
-		if( link.getCount() == 0){
-			link.setHead(n);
-			link.setTail(n);
-			link.setCount(link.getCount()+1);
-		}
-		else{
-			Node temp = link.getHead();
-			while(temp.getNext() != null){
-				if(temp.getNext().getNext() == null){
-					temp.getNext().getNext().setNext(n); //Point the tail to the new node
-					temp = null;
-					link.setCount(link.getCount()+1);
-					break;
-				}
-				temp = temp.getNext();
-			}
-
-		}
+	    link.add(n);
 	}
-	/*public void insert(Student student) {
-		Node n = new Node(student);
-
-		if( link.getCount() == 0){
-			link.setHead(n);
-			link.setTail(n);
-			link.setCount(link.getCount()+1);
-		}
-		if(student.compareTo(link.getHead().getCurrentStudent()) == -1){
-			n.setNext(link.getHead());
-			link.setHead(n);
-		}
-		else{
-			Node temp = link.getHead();
-			while( temp.getNext() != null)
-				if(student.compareTo(temp.getNext().getCurrentStudent())== -1){
-					n.setNext(temp.getNext());
-					temp.setNext(n);
-					link.setCount(link.getCount()+1);
-				}
-			temp = temp.getNext();
-
-		}
-		if(n.getNext() == null){
-			link.getTail().setNext(n);
-			link.setTail(n);
-		}
-	}*/
+	
 
 	@Override
 	/************************************************************
@@ -181,11 +138,14 @@ public class SimpleDatabase implements ISimpleDatabase{
 	public String display(){
 		String d = "";
 		Node temp = link.getHead();
-		while(temp.getNext() != null){
-			String name = temp.getCurrentStudent().getName();
-			String gnumber = temp.getCurrentStudent().getGNumber();
-			double gpa =temp.getCurrentStudent().getGpa();
-			d += name + " " + gnumber + " " + "\n";
+		link.setCurrentNode(temp);
+		while(link.getCurrentNode() != null){
+			String name = link.getCurrentNode().getCurrentStudent().getName();
+			String gnumber = link.getCurrentNode().getCurrentStudent().getGNumber();
+			String s = ""; 
+			String gpa = s+ link.getCurrentNode().getCurrentStudent().getGpa();
+			d += name + " " + gnumber + " " + gpa + " " + "\n";
+			link.setCurrentNode(link.getCurrentNode().getNext());
 		}
 		return d;
 	}
@@ -203,7 +163,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 			Node temp = link.getHead();
 			Node templink2 = temp.getNext();
 			while(temp.getNext() != null){
-				temp.getNext().getNext()
+				temp.getNext().getNext();
 			}
 		}
 
