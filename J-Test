@@ -14,15 +14,16 @@ public class StudentTest {
 		Student m = new Student("Leo", "G01207311", 3.88);
 		String na = m.getName();
 		String gn = m.getGNumber();
-		double n = (double) m.getGpa();
-		//String number = n.toString();
-		String s = na + " " + gn + " ";
-		System.out.println(s);
+		String s = "";
+		String gpa = s  + m.getGpa();
+		String number = gpa.toString();
+		String v = na + " " + gn + " " + gpa + " ";
+		System.out.println(v);
 		m.setGNumber("G012743");
 		gn = m.getGNumber();
 		Assert.assertEquals(gn,new String("G012743") );
-		s = na + " " + gn + " ";
-	    System.out.println(s);
+		v = na + " " + gn + " " + gpa + " ";
+	    System.out.println(v);
 	}
 	/*************************************************
 	 * Testing the display method of student objects
@@ -31,9 +32,11 @@ public class StudentTest {
 	public void testDisplay(){
 	    SimpleDatabase data = new SimpleDatabase();
 	    Student nu = new Student("Gloire", "G01340", 4.5);
-	    Student leo  = new Student("Leo", "G1022", 2.33);
+	    Student leo  = new Student("Recod", "G1022", 2.33);
+	    Student test = new Student("Test", "G0123444", 3.44);
 	    data.insert(nu);
 	    data.insert(leo);
+	    data.insert(test);
 	    String v = data.display();
 	    System.out.println(v);
 	}
