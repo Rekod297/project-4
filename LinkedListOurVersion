@@ -10,9 +10,11 @@ public class LinkedList implements Serializable {
 	private int count;
 	private Node head;
 	private Node tail;
-	
-	public LinkedList(Node head, Node tail){
+	private Node current;
+
+	public LinkedList(){
 		this.head = head;
+		current = head;
 		this.tail = tail;
 	}
 
@@ -34,6 +36,36 @@ public class LinkedList implements Serializable {
 	public void setTail(Node tail) {
 		this.tail = tail;
 	}
+	public Node getCurrentNode(){
+		return current;
+	}
+	public void setCurrentNode(Node cur){
+		current = cur;
+	}
 
+	/************************************************
+	 * Method that inserts student info into a node
+	 * Unless empty, add the record at the end
+	 * @param student the student to be inserted
+	 ***********************************************/
+	public void add(Node n){
+		if( getCount() == 0){
+			setHead(n);
+			setTail(n);
+			setCurrentNode(n);
+			setCount(getCount()+1);
+		}
+		else{
+			Node temp = getHead();
+				while(temp.getNext() != null){
+					temp = temp.getNext();
+					}
+				temp.setNext(n);
+				setCount( getCount() + 1);
+		}
+	}
 
+	public void Next(){
+		current = current.getNext();
+	}
 }
