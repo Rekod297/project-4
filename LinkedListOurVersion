@@ -62,6 +62,7 @@ public class LinkedList implements Serializable {
 					}
 				temp.setNext(n);
 				setCount( getCount() + 1);
+				setTail(n);
 		}
 	}
 
