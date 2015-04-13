@@ -11,7 +11,7 @@ import java.util.LinkedList;
  *****************************************************/
 
 
-public class SimpleDatabase implements ISimpleDatabase{
+public class SampleDataBase implements Interface{
 	/**Linkedlist of nodes */
 	private package1.LinkedList link;
 
@@ -29,7 +29,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 	 * @param plink reference to an existing LinkedList
 	 * @param pnode a node in the existing LinkedList
 	 ****************************************************/
-	public SimpleDatabase(package1.LinkedList plink, Node pnode){
+	public SampleDataBase(package1.LinkedList plink, Node pnode){
 		link = plink; // Can be given an already-existing linkedlist as parameter
 		node = pnode;
 	}
@@ -39,12 +39,12 @@ public class SimpleDatabase implements ISimpleDatabase{
 	 * Objects from the class are to be used for testing
 	 * Instantiates a new LinkedList of nodes
 	 ****************************************************/
-	public SimpleDatabase(){
+	public SampleDataBase(){
 		link = new package1.LinkedList();
 		node = new Node();
 	}
 
-	@Override
+	
 	/************************************************
 	 * Method that inserts student info into a node
 	 * Unless empty, add the record at the end
@@ -56,7 +56,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 	}
 	
 
-	@Override
+	
 	/************************************************************
 	 * Method that deletes a student record from the linked list
 	 * Uses a gNumber to find the node to be deleted
@@ -79,7 +79,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 		return true;
 	}
 
-	@Override
+	
 	/*******************************************************
 	 * Method to find a unique student in the LinkedList
 	 * Uses a gNumber to find the student
@@ -97,7 +97,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 	}
 
 
-	@Override
+	
 	/*******************************************************
 	 * Method to sort the students in the LinkedList by name
 	 * Calls the compareTo method in the Student class
@@ -128,7 +128,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 		}
 	}
 
-	@Override
+	
 	public boolean update(String gNumber, Student student) {
 
 		return false;
@@ -150,13 +150,28 @@ public class SimpleDatabase implements ISimpleDatabase{
 		return d;
 	}
 
-	@Override
+	
 	/***************************************************************
 	 * Method to reserve the list of nodes
 	 * Students objects are reversed opposite of alphabetical order 
 	 ***************************************************************/
 	public void reverseList() {
-		if (link.getCount() ==0){
+		package1.LinkedList nlist = new package1.LinkedList();
+		while(link.getHead() != null){
+			nlist.add(link.getTail());
+			Node temp = link.getHead();
+          while(temp.getNext().getNext() != null){
+        	  temp = temp.getNext();
+          }
+          if(link.getHead() == link.getTail()){
+        	  link.setHead(null);
+          }
+          link.setTail(temp);
+          link.getTail().setNext(null);
+		}
+		link = nlist;
+	}
+		/*if (link.getCount() ==0){
 			System.out.println("There is no data to sort");
 		}
 		else{
@@ -165,7 +180,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 			while(temp.getNext() != null){
 				temp.getNext().getNext();
 			}
-		}
+		}*/
 
 		/*Node temp = link.getHead();
 		while(temp.getNext() != null){
@@ -177,9 +192,25 @@ public class SimpleDatabase implements ISimpleDatabase{
 			reversetemp.addFirst(thisEntry);
 		}
 		link = reversetemp;*/
+	public static void main (String [] args){
+		SampleDataBase n = new SampleDataBase();
+		Student s = new Student("G", "G1", 2.3);
+		Student v = new Student("L", "G2", 2.4);
+		Student t = new Student("T", "G3", 2.5);
+		Student o = new Student("V", "G4", 2.7);
+		n.insert(s);
+		n.insert(v);
+		n.insert(t);
+		n.insert(o);
+		System.out.println(n.link.getHead().getCurrentStudent().getName());
+		System.out.println(n.link.getTail().getCurrentStudent().getName());
+		System.out.println(n.display());
+		n.reverseList();
+		System.out.println(n.display());
+		
 	}
 
-	@Override
+	
 	/******************************************************
 	 * Method that removes all duplicates from the list
 	 * Only one copy of the duplicates is left in the list
@@ -207,18 +238,18 @@ public class SimpleDatabase implements ISimpleDatabase{
 	}
 
 
-	@Override
+	
 	public boolean undo() {
      // To be filled with Recod's code
 		return false;
 	}
 
-	@Override
+	
 	public void loadDB(String fileName) {
 		// To be filled with Recod's code
 	}
 
-	@Override
+	
 	public void saveDB(String fileName) {
 		// To be filled with Recod's code
 	}
