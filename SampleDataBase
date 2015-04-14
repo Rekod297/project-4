@@ -11,7 +11,7 @@ import java.util.LinkedList;
  *****************************************************/
 
 
-public class SampleDataBase implements Interface{
+public class SimpleDatabase implements ISimpleDatabase{
 	/**Linkedlist of nodes */
 	private package1.LinkedList link;
 
@@ -20,7 +20,7 @@ public class SampleDataBase implements Interface{
 
 	/**The initial node that creates all other nodes */
 	private Node node;
-	
+
 
 
 	/****************************************************
@@ -29,7 +29,7 @@ public class SampleDataBase implements Interface{
 	 * @param plink reference to an existing LinkedList
 	 * @param pnode a node in the existing LinkedList
 	 ****************************************************/
-	public SampleDataBase(package1.LinkedList plink, Node pnode){
+	public SimpleDatabase(package1.LinkedList plink, Node pnode){
 		link = plink; // Can be given an already-existing linkedlist as parameter
 		node = pnode;
 	}
@@ -39,12 +39,12 @@ public class SampleDataBase implements Interface{
 	 * Objects from the class are to be used for testing
 	 * Instantiates a new LinkedList of nodes
 	 ****************************************************/
-	public SampleDataBase(){
+	public SimpleDatabase(){
 		link = new package1.LinkedList();
 		node = new Node();
 	}
 
-	
+	@Override
 	/************************************************
 	 * Method that inserts student info into a node
 	 * Unless empty, add the record at the end
@@ -52,11 +52,11 @@ public class SampleDataBase implements Interface{
 	 ***********************************************/
 	public void insert(Student student){
 		Node n = new Node(student);
-	    link.add(n);
+		link.add(n);
 	}
-	
 
-	
+
+	@Override
 	/************************************************************
 	 * Method that deletes a student record from the linked list
 	 * Uses a gNumber to find the node to be deleted
@@ -68,18 +68,23 @@ public class SampleDataBase implements Interface{
 		}
 		Node temp = link.getHead();
 		while(temp.getNext() != null){
+			if(temp.getCurrentStudent().getGNumber().compareTo(gNumber) == 0){
+				link.setHead(temp.getNext());
+				temp.setNext(null);
+				return true;
+			}
 			if (temp.getNext().getCurrentStudent().getGNumber().compareTo(gNumber) == 0){
 				Node breaklink = temp.getNext(); 
 				temp.setNext(temp.getNext().getNext()); //point temp to the second node down
 				breaklink.setNext(null); //expose the node to garbage collector
-				break;
+				//break?;
 			}
 			temp = temp.getNext();
 		}
 		return true;
 	}
 
-	
+	@Override
 	/*******************************************************
 	 * Method to find a unique student in the LinkedList
 	 * Uses a gNumber to find the student
@@ -87,17 +92,19 @@ public class SampleDataBase implements Interface{
 	 ******************************************************/
 	public Student find(String gNumber) {
 		Node temp = link.getHead();
+		if(temp.getCurrentStudent().getGNumber().compareTo(gNumber)== 0){
+			return temp.getCurrentStudent();
+		}
 		while(temp.getNext() != null){
 			if(temp.getNext().getCurrentStudent().getGNumber().compareTo(gNumber)== 0){
 				return temp.getNext().getCurrentStudent();
 			}
+			temp = temp.getNext();
 		}
-
 		return null;
 	}
 
-
-	
+	@Override
 	/*******************************************************
 	 * Method to sort the students in the LinkedList by name
 	 * Calls the compareTo method in the Student class
@@ -128,7 +135,7 @@ public class SampleDataBase implements Interface{
 		}
 	}
 
-	
+	@Override
 	public boolean update(String gNumber, Student student) {
 
 		return false;
@@ -150,7 +157,7 @@ public class SampleDataBase implements Interface{
 		return d;
 	}
 
-	
+	@Override
 	/***************************************************************
 	 * Method to reserve the list of nodes
 	 * Students objects are reversed opposite of alphabetical order 
@@ -160,40 +167,22 @@ public class SampleDataBase implements Interface{
 		while(link.getHead() != null){
 			nlist.add(link.getTail());
 			Node temp = link.getHead();
-          while(temp.getNext().getNext() != null){
-        	  temp = temp.getNext();
-          }
-          if(link.getHead() == link.getTail()){
-        	  link.setHead(null);
-          }
-          link.setTail(temp);
-          link.getTail().setNext(null);
+			while(temp.getNext()!=null && temp.getNext().getNext() != null){
+				temp = temp.getNext();
+			}
+			if(link.getHead() == link.getTail()){
+				link.setHead(null);
+			}
+			link.setTail(temp);
+			link.getTail().setNext(null);
 		}
 		link = nlist;
-	}
-		/*if (link.getCount() ==0){
-			System.out.println("There is no data to sort");
-		}
-		else{
-			Node temp = link.getHead();
-			Node templink2 = temp.getNext();
-			while(temp.getNext() != null){
-				temp.getNext().getNext();
-			}
-		}*/
 
-		/*Node temp = link.getHead();
-		while(temp.getNext() != null){
-			Node reflink                 //The node that insures continuity of the list
-			temp.getNext()
-			temp = temp.getNext();
-		}
-		for(Node thisEntry : link) {
-			reversetemp.addFirst(thisEntry);
-		}
-		link = reversetemp;*/
+
+	}
+
 	public static void main (String [] args){
-		SampleDataBase n = new SampleDataBase();
+		SimpleDatabase n = new SimpleDatabase();
 		Student s = new Student("G", "G1", 2.3);
 		Student v = new Student("L", "G2", 2.4);
 		Student t = new Student("T", "G3", 2.5);
@@ -207,17 +196,16 @@ public class SampleDataBase implements Interface{
 		System.out.println(n.display());
 		n.reverseList();
 		System.out.println(n.display());
-		
 	}
 
-	
+	@Override
 	/******************************************************
 	 * Method that removes all duplicates from the list
 	 * Only one copy of the duplicates is left in the list
 	 *****************************************************/
 	public void removeDuplicates() {
 		if(link.getCount() == 0){
-			System.out.println("There's nothing in the database");
+			System.out.println("There is no data to remove!");
 		}
 		else{
 			Node temp = link.getHead();
@@ -238,18 +226,18 @@ public class SampleDataBase implements Interface{
 	}
 
 
-	
+	@Override
 	public boolean undo() {
-     // To be filled with Recod's code
+		// To be filled with Recod's code
 		return false;
 	}
 
-	
+	@Override
 	public void loadDB(String fileName) {
 		// To be filled with Recod's code
 	}
 
-	
+	@Override
 	public void saveDB(String fileName) {
 		// To be filled with Recod's code
 	}
