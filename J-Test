@@ -17,6 +17,7 @@ public class StudentTest {
 		String s = "";
 		String gpa = s  + m.getGpa();
 		String number = gpa.toString();
+		System.out.println("Testing Student class");
 		String v = na + " " + gn + " " + gpa + " ";
 		System.out.println(v);
 		m.setGNumber("G012743");
@@ -24,10 +25,13 @@ public class StudentTest {
 		Assert.assertEquals(gn,new String("G012743") );
 		v = na + " " + gn + " " + gpa + " ";
 	    System.out.println(v);
+	    System.out.println("*************************************************");
+	    System.out.println();
 	}
-	/*************************************************
-	 * Testing the display method of student objects
-	 *************************************************/
+	/*****************************
+	 * Testing the display method
+	 * Testing the insert method 
+	 ****************************/
 	@Test
 	public void testDisplay(){
 	    SimpleDatabase data = new SimpleDatabase();
@@ -37,8 +41,81 @@ public class StudentTest {
 	    data.insert(nu);
 	    data.insert(leo);
 	    data.insert(test);
+	    System.out.println("Testing insert and display");
 	    String v = data.display();
 	    System.out.println(v);
+	    System.out.println("*************************************************");
 	}
+	
+	/*********************************
+	 * Testing the find method solely
+	 *********************************/
+	@SuppressWarnings("deprecation")
+	@Test
+	public void testFind(){
+		SimpleDatabase data = new SimpleDatabase();
+		Student nu = new Student("Gloire", "G01340", 4.5);
+		Student leo  = new Student("Recod", "G1022", 2.33);
+		Student test = new Student("Test", "G0123444", 3.44);
+		data.insert(nu);
+		data.insert(leo);
+		data.insert(test);
+		System.out.println("Testing Find");
+		System.out.println(data.display());
+		Student finder = data.find("G0123444"); //Point it to the right object
+		Assert.assertEquals(new String( "G0123444"), finder.getGNumber());
+		Student wfinder =  data.find("G01344445");
+		Assert.assertEquals(null,wfinder);
+		System.out.println("*************************************************");
+	}
+	
+	/******************************************
+	 * Testing the removeDuplicates method
+	 * Uses a gNumber to remove all duplicates
+	 ******************************************/
+	@Test
+	public void testRemoveDuplicates(){
+		SimpleDatabase data = new SimpleDatabase();
+	    Student nu = new Student("Gloire", "G01340", 4.5);
+	    Student leo  = new Student("Recod", "G1022", 2.33);
+	    Student test = new Student("Test", "G0123444", 3.44);
+	    Student nu2 = new Student("Gloire", "G01340", 4.5);
+	    data.insert(nu);
+	    data.insert(leo);
+	    data.insert(test);
+	    data.insert(nu2);
+	    System.out.println("Testing removeDuplicates");
+	    System.out.println(data.display());
 
+	    data.removeDuplicates("G01340");
+	    //Assert.assertEquals();
+	    System.out.println();
+	    System.out.println(data.display());
+	    System.out.println("*************************************************");
+	}
+	
+	/********************************************
+	 * Testing the delete method
+	 * Uses a gNumber to delete a student record
+	 ********************************************/
+	@Test
+	public void testDelete(){
+		SimpleDatabase data = new SimpleDatabase();
+	    Student nu = new Student("Gloire", "G01340", 4.5);
+	    Student leo  = new Student("Recod", "G1022", 2.33);
+	    Student test = new Student("Test", "G0123444", 3.44);
+	    data.insert(nu);
+	    data.insert(leo);
+	    data.insert(test);
+	    System.out.println("Testing delete");
+	    System.out.println(data.display());
+	    data.delete("G01340");
+	    Assert.assertEquals(true, data.delete("G01340"));
+	    data.delete("G1022");
+	    Assert.assertEquals(true, data.delete("G1022"));
+	    System.out.println();
+	    System.out.println(data.display());
+	    System.out.println("*************************************************");
+	}
+	 
 }
