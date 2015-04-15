@@ -116,24 +116,49 @@ public class SimpleDatabase implements ISimpleDatabase{
 		}
 		else{
 			Node temp = link.getHead();
-			Node templink = temp.getNext();
-			while(temp.getNext() != null){
-				if(temp.getNext().getCurrentStudent().
-						compareTo(temp.getCurrentStudent()) == -1){
-					Node templink2 = temp;
-					templink2.setNext(templink.getNext());
-					templink.setNext(templink2);
-					if(temp == link.getHead()){
-						link.setHead(templink);
-					}
-					else{
-						temp.setNext(null);
-					}
-				}
-				temp = temp.getNext();
+			link.setCurrentNode(temp);
+			int c = link.getCount();
+			
+			for( int b = 0; b < link.getCount() ; b++){
+				int i = 0;
+			while(link.getCurrentNode() != null && i <= c ){
+			    link.Next();
+			    if(temp.getCurrentStudent().compareTo( link.getCurrentNode().getCurrentStudent())==1){
+			    	temp = link.getCurrentNode();
+			    }
+			    
+			    Student cp_a = temp.getCurrentStudent();
+			    Student cp_b = link.getCurrentNode().getCurrentStudent();
+			    
+			    temp.setCurrentStudent(cp_b);
+			    link.getCurrentNode().setCurrentStudent(cp_a);
+			    
+			    c--; 
+			    link.setCurrentNode(link.getHead());
+			    temp = link.getHead();
+			}
 			}
 		}
 	}
+	public static void main (String [] args){
+		Student s = new Student("E", "G0122", 3.99);
+		Student v = new Student("D", "G0233", 2.33);
+		Student z = new Student("A", "G0125", 3.44);
+		Student c = new Student("B", "G0123", 3.44);
+		Student o = new Student ("Z", "G012334", 2.33);
+		SimpleDatabase m = new SimpleDatabase();
+		m.insert(s);
+		m.insert(v);
+		m.insert(z);
+		m.insert(c);
+		//m.insert(o);
+		System.out.println(m.display());
+		m.Sort();
+		System.out.println();
+		System.out.println(m.display());
+		
+	}
+	
 
 	@Override
 	public boolean update(String gNumber, Student student) {
@@ -181,7 +206,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 
 	}
 
-	public static void main (String [] args){
+	/*public static void main (String [] args){
 		SimpleDatabase n = new SimpleDatabase();
 		Student s = new Student("G", "G1", 2.3);
 		Student v = new Student("L", "G2", 2.4);
@@ -196,33 +221,54 @@ public class SimpleDatabase implements ISimpleDatabase{
 		System.out.println(n.display());
 		n.reverseList();
 		System.out.println(n.display());
-	}
+	}*/
 
 	@Override
 	/******************************************************
 	 * Method that removes all duplicates from the list
 	 * Only one copy of the duplicates is left in the list
 	 *****************************************************/
-	public void removeDuplicates() {
+	public void removeDuplicates(String gNumber) {
 		if(link.getCount() == 0){
 			System.out.println("There is no data to remove!");
 		}
 		else{
 			Node temp = link.getHead();
-			Node nextnode = temp.getNext();
+			
+			
 			while(temp.getNext() != null){
-				if(temp.getCurrentStudent().compareTo(temp.getNext().getCurrentStudent()) == 0){
-					temp.setNext(nextnode.getNext()); // Skip over next node and point to the following one
-					temp = nextnode.getNext(); // Move temp two nodes node
-					nextnode.setNext(null); // break link of duplicate
+				Node before = temp; //The node before the one to be deleted
+				Node nextnode = temp.getNext();
+				Node next2node = temp.getNext().getNext();
+				 
+				if(temp == link.getHead() && temp.getCurrentStudent().getGNumber().equals(gNumber)){
+                      remove(before, nextnode, next2node);
+				}
+				if(nextnode.getCurrentStudent().getGNumber().compareTo(gNumber) == 0){
+					remove(before, nextnode, next2node); // nextnode will be removed from the list
+					temp = temp.getNext();
 				}
 				else{
 					temp = temp.getNext();
 				}
-
 			}
 		}
-
+	}
+	/***************************************************
+	 * Private method to help with the removal of nodes
+	 * @param before the previous node
+	 * @param current the one being removed
+	 * @param after the node two spots down from current
+	 ***************************************************/
+	public void remove(Node before, Node remove, Node after){
+		if(before == link.getHead()){
+			link.setHead(remove);
+			before.setNext(null);
+		}
+		else{
+			before.setNext(after);
+			remove.setNext(null);
+		}
 	}
 
 
