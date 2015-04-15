@@ -4,8 +4,15 @@ import static org.junit.Assert.*;
 import junit.framework.Assert;
 
 import org.junit.Test;
+/*****************************************************
+ * @author Gloire Rubambiza & Recod Rekodeo
+ *@version 04/08/2015
+ *Class that handles all list operations
+ *Implements all methods of ISimpleDatabase interface
+ *****************************************************/
 
 public class StudentTest {
+	
     /***************************************************
      * Testing getters and setters in the student class
      **************************************************/
@@ -22,7 +29,7 @@ public class StudentTest {
 		System.out.println(v);
 		m.setGNumber("G012743");
 		gn = m.getGNumber();
-		Assert.assertEquals(gn,new String("G012743") );
+		assertEquals(gn,new String("G012743") );
 		v = na + " " + gn + " " + gpa + " ";
 	    System.out.println(v);
 	    System.out.println("*************************************************");
@@ -50,7 +57,6 @@ public class StudentTest {
 	/*********************************
 	 * Testing the find method solely
 	 *********************************/
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testFind(){
 		SimpleDatabase data = new SimpleDatabase();
@@ -63,9 +69,9 @@ public class StudentTest {
 		System.out.println("Testing Find");
 		System.out.println(data.display());
 		Student finder = data.find("G0123444"); //Point it to the right object
-		Assert.assertEquals(new String( "G0123444"), finder.getGNumber());
+		assertEquals(new String( "G0123444"), finder.getGNumber());
 		Student wfinder =  data.find("G01344445");
-		Assert.assertEquals(null,wfinder);
+		assertEquals(null,wfinder);
 		System.out.println("*************************************************");
 	}
 	
@@ -86,9 +92,7 @@ public class StudentTest {
 	    data.insert(nu2);
 	    System.out.println("Testing removeDuplicates");
 	    System.out.println(data.display());
-
 	    data.removeDuplicates("G01340");
-	    //Assert.assertEquals();
 	    System.out.println();
 	    System.out.println(data.display());
 	    System.out.println("*************************************************");
@@ -110,12 +114,34 @@ public class StudentTest {
 	    System.out.println("Testing delete");
 	    System.out.println(data.display());
 	    data.delete("G01340");
-	    Assert.assertEquals(true, data.delete("G01340"));
+	    assertEquals(true, data.delete("G01340"));
 	    data.delete("G1022");
-	    Assert.assertEquals(true, data.delete("G1022"));
+	    assertEquals(true, data.delete("G1022"));
 	    System.out.println();
 	    System.out.println(data.display());
 	    System.out.println("*************************************************");
 	}
-	 
+	/********************************************
+	 * Testing the reverseList method
+	 * Reverses the order of the list
+	 ********************************************/
+	@Test
+	public void testReverseList(){
+		SimpleDatabase n = new SimpleDatabase();
+		Student s = new Student("Gabe", "G11111", 2.3);
+		Student v = new Student("Laurie", "G22222", 2.4);
+		Student t = new Student("Thomas", "G33333", 2.5);
+		Student o = new Student("Veronica", "G44444", 2.7);
+		n.insert(s);
+		n.insert(v);
+		n.insert(t);
+		n.insert(o);
+		System.out.println();
+		System.out.println("Testing reverseList");
+		System.out.println(n.display());
+		n.reverseList();
+		System.out.println();
+		System.out.println(n.display());
+		System.out.println("*************************************************");
+	}
 }
