@@ -106,6 +106,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 	 * Method to sort the students in the LinkedList by name
 	 * Calls the compareTo method in the Student class
 	 *******************************************************/
+	
 	public void Sort() {
 		if(link.getCount()== 0){
 			System.out.println("There's no data to sort");
@@ -117,12 +118,15 @@ public class SimpleDatabase implements ISimpleDatabase{
 			int c = link.getCount();
 			
 			for( int b = 0; b < link.getCount() ; b++){
-				int i = 0;
-			while(link.getCurrentNode() != null && i <= c ){
+				int i = 1;
+			while(link.getCurrentNode().getNext() != null && i <= c ){
 			    link.Next();
 			    if(temp.getCurrentStudent().compareTo( link.getCurrentNode().getCurrentStudent())==1){
 			    	temp = link.getCurrentNode();
 			    }
+			    i++;
+			    
+			}
 			    
 			    Student cp_a = temp.getCurrentStudent();
 			    Student cp_b = link.getCurrentNode().getCurrentStudent();
@@ -133,10 +137,13 @@ public class SimpleDatabase implements ISimpleDatabase{
 			    c--; 
 			    link.setCurrentNode(link.getHead());
 			    temp = link.getHead();
-			}
+			
 			}
 		}
 	}
+	
+	
+	
 	public static void main (String [] args){
 		Student s = new Student("E", "G0122", 3.99);
 		Student v = new Student("D", "G0233", 2.33);
