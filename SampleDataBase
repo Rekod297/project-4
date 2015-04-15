@@ -15,9 +15,6 @@ public class SimpleDatabase implements ISimpleDatabase{
 	/**Linkedlist of nodes */
 	private package1.LinkedList link;
 
-	/**A temporary linked list for reversing the list */
-	private java.util.LinkedList <Node> reversetemp = new java.util.LinkedList<Node>();
-
 	/**The initial node that creates all other nodes */
 	private Node node;
 
@@ -40,7 +37,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 	 * Instantiates a new LinkedList of nodes
 	 ****************************************************/
 	public SimpleDatabase(){
-		link = new package1.LinkedList();
+		link = new package1.LinkedList(); //Creates a new LinkedList
 		node = new Node();
 	}
 
@@ -201,27 +198,8 @@ public class SimpleDatabase implements ISimpleDatabase{
 			link.setTail(temp);
 			link.getTail().setNext(null);
 		}
-		link = nlist;
-
-
+		link = nlist; //Point the old empty list to the new reversed one
 	}
-
-	/*public static void main (String [] args){
-		SimpleDatabase n = new SimpleDatabase();
-		Student s = new Student("G", "G1", 2.3);
-		Student v = new Student("L", "G2", 2.4);
-		Student t = new Student("T", "G3", 2.5);
-		Student o = new Student("V", "G4", 2.7);
-		n.insert(s);
-		n.insert(v);
-		n.insert(t);
-		n.insert(o);
-		System.out.println(n.link.getHead().getCurrentStudent().getName());
-		System.out.println(n.link.getTail().getCurrentStudent().getName());
-		System.out.println(n.display());
-		n.reverseList();
-		System.out.println(n.display());
-	}*/
 
 	@Override
 	/******************************************************
@@ -255,7 +233,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 		}
 	}
 	/***************************************************
-	 * Private method to help with the removal of nodes
+	 * Method to help with the removal of nodes
 	 * @param before the previous node
 	 * @param current the one being removed
 	 * @param after the node two spots down from current
