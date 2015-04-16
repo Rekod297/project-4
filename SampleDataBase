@@ -140,7 +140,7 @@ public class SimpleDatabase implements ISimpleDatabase, Serializable{
 		}
 		return null;
 	}
-	
+
 	/********************************************************
 	 * Method used by removeDuplicates to compare students
 	 * @param gNumber the gNumber of the student to be found
@@ -199,11 +199,11 @@ public class SimpleDatabase implements ISimpleDatabase, Serializable{
 		}
 	}
 
-	/*@Override
+	@Override
 	public boolean update(String gNumber, Student student) {
 
 		return false;
-	}*/
+	}
 
 	/*******************************************************
 	 * Method that displays the database objects in the GUI
@@ -282,13 +282,20 @@ public class SimpleDatabase implements ISimpleDatabase, Serializable{
 		}
 		link = nlist;
 	}
-    /**
-     * Method that pushes a copy of an old
-     */
+	/**********************************************
+	 * Method that pushes a copy of a link to
+	 * The stack before performing the next method
+	 **********************************************/
 	public void doFunction(){
 		linksave.push(copyLink());
 	}
 
+	/*************************************************
+	 * Method that copies the initial state of a link
+	 * Prior to changing the link with the method
+	 * @return the copy of the LinkedList to be pushed
+	 * To the stack
+	 *************************************************/
 	public LinkedList copyLink(){
 
 		LinkedList copy = new LinkedList();
@@ -299,13 +306,14 @@ public class SimpleDatabase implements ISimpleDatabase, Serializable{
 			if( link.getCount() >=1){
 				while( link.getCurrentNode().getNext() != null && link.getCurrentNode().getCurrentStudent()!= null){
 
-					copy.add(new Node( link.getCurrentNode().getCurrentStudent()));
+					copy.add(new Node( link.getCurrentNode().getCurrentStudent())); //Loop through all objects and make copies 
+					// of them in the new LinkedList
 
 					link.Next();
 
-					if( link.getCurrentNode().getNext() == null){
+					if( link.getCurrentNode().getNext() == null){ //Check if the next node is the tail
 						copy.add( new Node(link.getCurrentNode().getCurrentStudent()));
-						break;
+						break; //After copying , we break out of the loop
 					}
 				}
 			}
@@ -313,20 +321,29 @@ public class SimpleDatabase implements ISimpleDatabase, Serializable{
 			return copy;
 
 		} catch( NullPointerException e){
-			//  e.printStackTrace();
-			// throw e;
+
 		}
 
-		return  copy;
+		return  copy; //Return this LinkedList to do function
 
 	}
 	@Override
+	/*******************************************************
+	 * Method to undo a previous operation on the LinkedList
+	 * Pops an old version of the link 
+	 * @return true if the method has been undone
+	 *******************************************************/
 	public boolean undo() {
 		link = linksave.pop();
 		return true;
 	}
 
 	@Override
+	/*************************************************
+	 * Method that loads a saved database from a file
+	 * Receives serialized objects
+	 * @param filename the file that contains the info
+	 *************************************************/
 	public void loadDB(String fileName) {
 		FileInputStream file = null;
 		ObjectInputStream obj = null;
@@ -346,6 +363,10 @@ public class SimpleDatabase implements ISimpleDatabase, Serializable{
 	}
 
 	@Override
+	/*********************************************************
+	 * Method that saves the info as serialized objects
+	 * @param filename the file where the info is to be stored
+	 **********************************************************/
 	public void saveDB(String fileName) {
 
 		FileOutputStream file = null ; 
@@ -363,7 +384,10 @@ public class SimpleDatabase implements ISimpleDatabase, Serializable{
 
 		}
 	}
-
+    /********************************************
+     * Method to retrieve the current LinkedList
+     * @return LinkedList the current LinkedList
+     ********************************************/
 	public LinkedList getData(){
 		return link;
 	}
