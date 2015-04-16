@@ -1,7 +1,6 @@
 package package1;
 
-import java.util.*;
-import java.util.LinkedList;
+import java.util.Stack;
 
 /*****************************************************
  * @author Gloire Rubambiza & Recod Rekodeo
@@ -12,7 +11,7 @@ import java.util.LinkedList;
 
 
 public class SimpleDatabase implements ISimpleDatabase{
-	/**Linkedlist of nodes */
+	/**LinkedList of nodes */
 	private package1.LinkedList link;
 
 	/**The initial node that creates all other nodes */
@@ -27,7 +26,7 @@ public class SimpleDatabase implements ISimpleDatabase{
 	 * @param pnode a node in the existing LinkedList
 	 ****************************************************/
 	public SimpleDatabase(package1.LinkedList plink, Node pnode){
-		link = plink; // Can be given an already-existing linkedlist as parameter
+		link = plink; // Can be given an already-existing LinkedList as parameter
 		node = pnode;
 	}
 
@@ -63,22 +62,32 @@ public class SimpleDatabase implements ISimpleDatabase{
 		if (link.getCount() == 0){
 			return false;
 		}
-		Node temp = link.getHead();
-		while(temp.getNext() != null){
-			if(temp.getCurrentStudent().getGNumber().compareTo(gNumber) == 0){
-				link.setHead(temp.getNext());
-				temp.setNext(null);
-				return true;
-			}
-			if (temp.getNext().getCurrentStudent().getGNumber().compareTo(gNumber) == 0){
-				Node breaklink = temp.getNext(); 
-				temp.setNext(temp.getNext().getNext()); //point temp to the second node down
-				breaklink.setNext(null); //expose the node to garbage collector
-				//break?;
-			}
-			temp = temp.getNext();
+		if( gNumber.equals( link.getHead().getCurrentStudent().getGNumber()) ){
+			Node temp = link.getHead().getNext();
+			link.getHead().setNext(null);
+			link.setHead(temp);
+
+			return true; 
 		}
-		return true;
+		else{
+			Node temp = link.getHead().getNext();
+			link.setCurrentNode(link.getHead());
+
+			do{
+				if( gNumber.equals( temp.getCurrentStudent().getGNumber())) {
+
+					Node temp2 = temp.getNext();
+					link.getCurrentNode().setNext(temp2);
+					temp.setNext(null);
+					return true; 
+				}
+				temp = temp.getNext();
+				link.Next();
+
+			}while( temp.getNext() != null);		
+		}
+
+		return false;
 	}
 
 	@Override
@@ -100,13 +109,25 @@ public class SimpleDatabase implements ISimpleDatabase{
 		}
 		return null;
 	}
+	public boolean findUnique(String gNumber, package1.LinkedList l) {
+		Node temp = l.getHead();
+		if(temp.getCurrentStudent().getGNumber().compareTo(gNumber)== 0){
+			return true;
+		}
+		while(temp.getNext() != null){
+			if(temp.getNext().getCurrentStudent().getGNumber().compareTo(gNumber)== 0){
+				return true;
+			}
+			temp = temp.getNext();
+		}
+		return false;
+	}
 
 	@Override
 	/*******************************************************
 	 * Method to sort the students in the LinkedList by name
 	 * Calls the compareTo method in the Student class
 	 *******************************************************/
-	
 	public void Sort() {
 		if(link.getCount()== 0){
 			System.out.println("There's no data to sort");
@@ -116,34 +137,28 @@ public class SimpleDatabase implements ISimpleDatabase{
 			Node temp = link.getHead();
 			link.setCurrentNode(temp);
 			int c = link.getCount();
-			
+
 			for( int b = 0; b < link.getCount() ; b++){
 				int i = 1;
-			while(link.getCurrentNode().getNext() != null && i <= c ){
-			    link.Next();
-			    if(temp.getCurrentStudent().compareTo( link.getCurrentNode().getCurrentStudent())==1){
-			    	temp = link.getCurrentNode();
-			    }
-			    i++;
-			    
-			}
-			    
-			    Student cp_a = temp.getCurrentStudent();
-			    Student cp_b = link.getCurrentNode().getCurrentStudent();
-			    
-			    temp.setCurrentStudent(cp_b);
-			    link.getCurrentNode().setCurrentStudent(cp_a);
-			    
-			    c--; 
-			    link.setCurrentNode(link.getHead());
-			    temp = link.getHead();
-			
+				while(link.getCurrentNode().getNext() != null && i <= c ){
+					link.Next();
+					if(temp.getCurrentStudent().compareTo( link.getCurrentNode().getCurrentStudent())==1){
+						temp = link.getCurrentNode();
+					}
+					i++;
+				}
+				Student cp_a = temp.getCurrentStudent();
+				Student cp_b = link.getCurrentNode().getCurrentStudent();
+
+				temp.setCurrentStudent(cp_b);
+				link.getCurrentNode().setCurrentStudent(cp_a);
+
+				c--; 
+				link.setCurrentNode(link.getHead());
+				temp = link.getHead();
 			}
 		}
 	}
-	
-	
-	
 	public static void main (String [] args){
 		Student s = new Student("E", "G0122", 3.99);
 		Student v = new Student("D", "G0233", 2.33);
@@ -155,14 +170,14 @@ public class SimpleDatabase implements ISimpleDatabase{
 		m.insert(v);
 		m.insert(z);
 		m.insert(c);
-		//m.insert(o);
+		m.insert(o);
 		System.out.println(m.display());
 		m.Sort();
 		System.out.println();
 		System.out.println(m.display());
-		
+
 	}
-	
+
 
 	@Override
 	public boolean update(String gNumber, Student student) {
@@ -213,32 +228,35 @@ public class SimpleDatabase implements ISimpleDatabase{
 	 * Method that removes all duplicates from the list
 	 * Only one copy of the duplicates is left in the list
 	 *****************************************************/
-	public void removeDuplicates(String gNumber) {
+	public void removeDuplicates() {
+
 		if(link.getCount() == 0){
-			System.out.println("There is no data to remove!");
+			return;
 		}
-		else{
-			Node temp = link.getHead();
-			
-			
-			while(temp.getNext() != null){
-				Node before = temp; //The node before the one to be deleted
-				Node nextnode = temp.getNext();
-				Node next2node = temp.getNext().getNext();
-				 
-				if(temp == link.getHead() && temp.getCurrentStudent().getGNumber().equals(gNumber)){
-                      remove(before, nextnode, next2node);
-				}
-				if(nextnode.getCurrentStudent().getGNumber().compareTo(gNumber) == 0){
-					remove(before, nextnode, next2node); // nextnode will be removed from the list
-					temp = temp.getNext();
-				}
-				else{
-					temp = temp.getNext();
-				}
+		Stack <Node> nodesaver = new Stack<Node>();
+		Node temp = link.getHead();
+		package1.LinkedList nlist = new package1.LinkedList();
+		while(temp.getNext() != null){
+			nodesaver.push(temp);
+			if(temp.getNext().getNext() == null){
+				nodesaver.push(temp.getNext());
+				break;
+			}
+			temp = temp.getNext();
+		}
+
+		Node student = nodesaver.pop();
+		nlist.add(student);
+		while(nodesaver.isEmpty() == false){
+			Node teststudent = nodesaver.pop();
+			if(findUnique(teststudent.getCurrentStudent().getGNumber(), nlist) == false){
+				nlist.add(new Node( teststudent.getCurrentStudent()));
 			}
 		}
+		link = nlist;
 	}
+
+
 	/***************************************************
 	 * Method to help with the removal of nodes
 	 * @param before the previous node
