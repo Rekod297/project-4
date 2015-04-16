@@ -1,11 +1,16 @@
 package package1;
+
+import java.io.Serializable;
+
 /*********************************************
  *@author Gloire Rubambiza & Recod Rekodeo
  *@version 03/29/2015
  *Class that instantiates all student data
  ********************************************/
 
-public class Student implements Comparable<Student> {
+public class Student implements Comparable<Student> , Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	/**The student's name*/
 	private String name;
 
