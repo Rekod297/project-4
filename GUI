@@ -1,15 +1,23 @@
 package package1;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+
 import javax.swing.JFrame;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
 
-public class Gui extends JFrame {
+public class GUISimpleDataBase extends JFrame {
 
-	public Gui() {
+	public  GUISimpleDataBase( SimpleDatabase pdata) {
 
+		data = pdata;
 		setWindow();
 	}
 
@@ -20,7 +28,23 @@ public class Gui extends JFrame {
 		textField.setBounds(0, 0, 546, 26);
 		getContentPane().add(textField);
 		textField.setColumns(10);
+		
+		textField.addKeyListener( new KeyAdapter(){
+			
+			@Override
+			public void keyTyped( KeyEvent ev ){
+				
+				char c = ev.getKeyChar();
+				if( ! ( Character.isDigit(c)  || c ==KeyEvent.VK_BACK_SPACE || c ==KeyEvent.VK_DELETE)){
+					
+					getToolkit().beep();
+					ev.consume();
+				}
+			}
+			
+		});
 
+        
 		JLabel lblName = new JLabel("Name");
 		lblName.setBounds(10, 50, 69, 20);
 		getContentPane().add(lblName);
@@ -33,63 +57,194 @@ public class Gui extends JFrame {
 		lblGpa.setBounds(10, 141, 69, 20);
 		getContentPane().add(lblGpa);
 
-		JTextPane display_panel = new JTextPane();
-		display_panel.setBounds(0, 238, 546, 74);
-		getContentPane().add(display_panel);
+	   
+		
 
 		name_field = new JTextField();
 		name_field.setBounds(107, 44, 146, 26);
 		getContentPane().add(name_field);
 		name_field.setColumns(10);
+		
+		name_field.addKeyListener( new KeyAdapter(){
+			
+			@Override
+			public void keyTyped( KeyEvent ev ){
+				
+				char c = ev.getKeyChar();
+				if( ! ( !(Character.isDigit(c))  || c ==KeyEvent.VK_BACK_SPACE || c ==KeyEvent.VK_DELETE)){
+					
+					getToolkit().beep();
+					ev.consume();
+				}
+			}
+			
+		});
 
 		G_number_Field = new JTextField();
 		G_number_Field.setBounds(107, 93, 146, 26);
 		getContentPane().add(G_number_Field);
 		G_number_Field.setColumns(10);
+		
+		G_number_Field.addKeyListener( new KeyAdapter(){
+			
+			@Override
+			public void keyTyped( KeyEvent ev ){
+				
+				char c = ev.getKeyChar();
+				if( ! ( Character.isDigit(c)  || c ==KeyEvent.VK_BACK_SPACE || c ==KeyEvent.VK_DELETE)){
+					
+					getToolkit().beep();
+					ev.consume();
+				}
+			}
+			
+		});
 
 		GPA_txt = new JTextField();
 		GPA_txt.setBounds(107, 135, 146, 26);
 		getContentPane().add(GPA_txt);
 		GPA_txt.setColumns(10);
+		
+		GPA_txt.addKeyListener( new KeyAdapter(){
+			
+			@Override
+			public void keyTyped( KeyEvent ev ){
+				
+				char c = ev.getKeyChar();
+				if( ! ( Character.isDigit(c)  ||  c == '.' || c ==KeyEvent.VK_BACK_SPACE || c ==KeyEvent.VK_DELETE)){
+					
+					getToolkit().beep();
+					ev.consume();
+				}
+			}
+			
+		});
 
-	     btnInsert = new JButton("Insert");
+		
+		Events ev = new Events();
+	    btnInsert = new JButton("Insert");
 		btnInsert.setBounds(268, 46, 115, 29);
 		getContentPane().add(btnInsert);
+		btnInsert.addActionListener(ev);
 
 		btnFind = new JButton("Find");
 		btnFind.setBounds(268, 92, 115, 29);
 		getContentPane().add(btnFind);
+		btnFind.addActionListener(ev);
 
 		 btnDuplicate = new JButton("Duplicate");
 		btnDuplicate.setBounds(268, 137, 115, 29);
 		getContentPane().add(btnDuplicate);
+		btnDuplicate.addActionListener(ev);
 
 		 btnDelete = new JButton("Delete");
 		btnDelete.setBounds(398, 46, 115, 29);
 		getContentPane().add(btnDelete);
+		btnDelete.addActionListener(ev);
 
 		btnReverse = new JButton("Reverse");
 		btnReverse.setBounds(398, 92, 115, 29);
 		getContentPane().add(btnReverse);
+		btnReverse.addActionListener(ev);
 
 		btnDisplay = new JButton("Display");
 		btnDisplay.setBounds(398, 137, 115, 29);
 		getContentPane().add(btnDisplay);
+		btnDisplay.addActionListener(ev);
 
 	     btnLoad = new JButton("Load");
 		btnLoad.setBounds(268, 178, 115, 29);
 		getContentPane().add(btnLoad);
 
-	   btnSave = new JButton("Save");
+	    btnSave = new JButton("Save");
 		btnSave.setBounds(398, 182, 115, 29);
 		getContentPane().add(btnSave);
+		
+		textArea = new JTextArea();
+		scrollPane =  new JScrollPane ( textArea,
+		JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+		scrollPane.setBounds(10, 242, 503, 70);
+		getContentPane().add(scrollPane);
+		
+		setSize(500,700);
+		setVisible(true);
+		//scrollPane.setViewportView(textArea);
+		
+		
+	}
+	
+	
+	private class Events implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+ 
+			if( e.getSource() == btnInsert){
+				
+				String name = name_field.getText();
+				String g = "G" + G_number_Field.getText() ; 
+				double gpa = Double.parseDouble( GPA_txt.getText());
+				
+				data.insert(new Student( name, g, gpa));
+				
+				
+			}
+			
+			if( e.getSource() == btnFind){
+				
+				String student_finder = "G" + textField.getText();
+				
+				Student x = data.find(student_finder);
+				
+				name_field.setText(x.getName());
+				G_number_Field.setText(x.getGNumber());
+				String s = "";
+				GPA_txt.setText(s+ x.getGpa());
+				
+			}
+			
+			if( e.getSource() == btnReverse){
+				
+			   data.reverseList();
+			}
+			
+			if( e.getSource() == btnDelete){
+				
+				String g_number = "G" + textField.getText();
+				data.delete(g_number);
+			}
+			
+			if( e.getSource() == btnDuplicate){
+				
+				data.removeDuplicates();
+			}
+			
+			if( e.getSource() == btnDisplay){
+				
+				textArea.setText(data.display());
+				
+			}
+			if( e.getSource() == btnSave){
+				
+			}
+			
+			if( e.getSource() == btnLoad){
+				
+			}
+			
+			
+		
+		}
+	}
+	public static void main(String [] args){
+		new GUISimpleDataBase(new SimpleDatabase ());
 	}
 
+	private SimpleDatabase data; 
 	private JTextField textField;
 	private JTextField name_field;
 	private JTextField G_number_Field;
 	private JTextField GPA_txt;
-	private JTextPane display_panel; 
 	private JButton btnInsert;
 	private JButton btnFind;
 	private JButton btnDuplicate;
@@ -98,5 +253,6 @@ public class Gui extends JFrame {
 	private JButton btnDisplay;
 	private JButton btnLoad;
 	private JButton btnSave;
-
+	private JScrollPane scrollPane;
+	private JTextArea textArea;
 }
