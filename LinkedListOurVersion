@@ -44,7 +44,7 @@ public class LinkedList implements Serializable {
 	}
 
 	/************************************************
-	 * Method that inserts student info into a node
+	 * Method that inserts a new node into the list
 	 * Unless empty, add the record at the end
 	 * @param student the student to be inserted
 	 ***********************************************/
