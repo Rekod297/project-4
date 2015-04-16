@@ -1,12 +1,16 @@
 package package1;
+
+import java.io.Serializable;
+
 /********************************************
  * 
  *@author Gloire Rubambiza & Recod Rekodeo
  *@version 03/30/2015
  *Class that instantiates nodes in the list
  ********************************************/
-public class Node {
+public class Node  implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	/** Student object that creates each new entry*/
 	public Student data;
 
