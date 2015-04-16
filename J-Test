@@ -1,6 +1,9 @@
 package package1;
 
 import static org.junit.Assert.*;
+
+import java.util.EmptyStackException;
+
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -44,13 +47,17 @@ public class StudentTest {
 	    SimpleDatabase data = new SimpleDatabase();
 	    Student nu = new Student("Gloire", "G01340", 4.5);
 	    Student leo  = new Student("Recod", "G1022", 2.33);
-	    Student test = new Student("Test", "G0123444", 3.44);
 	    data.insert(nu);
 	    data.insert(leo);
-	    data.insert(test);
 	    System.out.println("Testing insert and display");
 	    String v = data.display();
+	    String s = "Gloire" + " " +"G01340" + " " + "4.5" + " "+ "\n";
+	    s = s + "Recod" + " " + "G1022" + " " + "2.33" + " "+ "\n";
 	    System.out.println(v);
+	    int i = s.compareTo(v);
+	    assertEquals(0, i);
+	    System.out.println(s);
+	    assertEquals("G01340", nu.getGNumber());
 	    System.out.println("*************************************************");
 	}
 	
@@ -95,6 +102,9 @@ public class StudentTest {
 	    System.out.println("Testing removeDuplicates");
 	    System.out.println(data.display());
 	    data.removeDuplicates();
+	    data.delete("G1022");
+	    assertEquals(null, data.find("G1022"));
+	    assertEquals(3, data.getData().getCount());
 	    System.out.println();
 	    System.out.println(data.display());
 	    System.out.println("*************************************************");
@@ -109,8 +119,8 @@ public class StudentTest {
 		SimpleDatabase data = new SimpleDatabase();
 	    Student nu = new Student("Gloire", "G01340", 4.5);
 	    Student leo  = new Student("Recod", "G1022", 2.33);
-	    Student test = new Student("Test", "G444", 3.44);
-	    Student test2 = new Student("Ruba", "G01340", 4.55);
+	    Student test = new Student("Test", "G4444", 3.44);
+	    Student test2 = new Student("Ruba", "G5555", 4.55);
 	    data.insert(nu);
 	    data.insert(leo);
 	    data.insert(test);
@@ -119,16 +129,14 @@ public class StudentTest {
 	    System.out.println(data.display());
 	    data.delete("G01340");
 	    assertEquals(false, data.delete("G01340"));
-	    System.out.println(data.display());
+	    assertEquals(null, data.find("G01340"));
 	    data.delete("G1022");
-	   // assertEquals(true, data.delete("G1022"));
-	    data.delete("G444");
-	    System.out.println();
+	    data.delete("G4444");
 	    System.out.println(data.display());
-	    data.delete("G01340");
+	    data.delete("G5555");
+	    data.delete("G4444");
+	    System.out.println(data.display());
 	    
-	    System.out.println();
-	    System.out.println(data.display());
 	    System.out.println("*************************************************");
 	}
 	/********************************************
@@ -148,10 +156,11 @@ public class StudentTest {
 		n.insert(o);
 		System.out.println();
 		System.out.println("Testing reverseList");
-		System.out.println(n.display());
+		
 		n.reverseList();
-		System.out.println();
-		System.out.println(n.display());
+		assertEquals( o, n.getData().getHead().getCurrentStudent());
+		assertEquals(s, n.getData().getTail().getCurrentStudent());
+	
 		System.out.println("*************************************************");
 	}
 	
@@ -170,18 +179,21 @@ public class StudentTest {
 		m.insert(s);
 		m.insert(v);
 		m.insert(z);
-		m.insert(c);
 		m.insert(o);
-		System.out.println(m.display());
+		m.insert(c);
+		System.out.println("Testing sort");
 		m.Sort();
-		System.out.println();
+		assertEquals(o, m.getData().getTail().getCurrentStudent());
+		assertEquals(z, m.getData().getHead().getCurrentStudent());
 		System.out.println(m.display());
 		System.out.println("*************************************************");
 	}
 	
-	/************************************
-	 * Undo method to reverse all methods
-	 ************************************/
+	/***************************************************
+	 * Testing the Undo method
+	 * Keeps track of the state of the LinkedList before
+	 * An operation is performed 
+	 ***************************************************/
 	@Test
 	public void testUndo(){
 		SimpleDatabase data = new SimpleDatabase();
@@ -200,15 +212,37 @@ public class StudentTest {
 	    System.out.println();
 	    data.delete("G444");
 	    System.out.println();
-	    System.out.println(data.display());
-	    data.delete("G01340");
-	    System.out.println(data.display());
-	    System.out.println();
-	    data.reverseList();
-	    System.out.println(data.display());
+	    assertEquals(null, data.find("G444"));
 	    data.undo();
-	    System.out.println(data.display());
+	    assertEquals(test, data.find("G444"));
 	    System.out.println("*************************************************");
 	    
+	}
+	
+	/*************************************
+	 * Testing the load and save methods
+	 *************************************/
+	@Test(expected = EmptyStackException.class)
+	public void testSaveAndLoad(){
+		SimpleDatabase data = new SimpleDatabase();
+		SimpleDatabase data2 = new SimpleDatabase();
+
+	    Student nu = new Student("Gloire", "G01340", 4.5);
+	    Student leo  = new Student("Recod", "G1022", 2.33);
+	    Student test = new Student("Test", "G444", 3.44);
+	    Student nu2 = new Student("Gloire", "G01340", 4.5);
+	    Student test2 = new Student("Test2", "G1022", 2.3);
+	    data.insert(nu);
+	    data.insert(leo);
+	    data.insert(test);
+	    data.insert(nu2);
+	    data.insert(test2);
+	    System.out.println("Testing load");
+	    data.delete("G444");
+	    data.saveDB("Testing");
+	    data.undo();
+	    assertEquals(null, data.find("G444"));
+	    data2.loadDB("Testing");
+	    assertEquals(data.display(), data2.display());
 	}
 }
