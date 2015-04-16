@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -155,10 +156,12 @@ public class GUISimpleDataBase extends JFrame {
 	     btnLoad = new JButton("Load");
 		btnLoad.setBounds(268, 178, 115, 29);
 		getContentPane().add(btnLoad);
+		btnLoad.addActionListener(ev);
 
 	    btnSave = new JButton("Save");
 		btnSave.setBounds(398, 182, 115, 29);
 		getContentPane().add(btnSave);
+		btnSave.addActionListener(ev);
 		
 		textArea = new JTextArea();
 		scrollPane =  new JScrollPane ( textArea,
@@ -166,9 +169,9 @@ public class GUISimpleDataBase extends JFrame {
 		scrollPane.setBounds(10, 242, 503, 70);
 		getContentPane().add(scrollPane);
 		
-		setSize(500,700);
+		pack();
 		setVisible(true);
-		//scrollPane.setViewportView(textArea);
+	
 		
 		
 	}
@@ -226,9 +229,28 @@ public class GUISimpleDataBase extends JFrame {
 			}
 			if( e.getSource() == btnSave){
 				
+				
+				final JFileChooser chFile = new JFileChooser();
+				int rep = chFile.showSaveDialog(btnSave.getParent());
+				
+				if( rep == JFileChooser.APPROVE_OPTION){
+					
+					String c = chFile.getSelectedFile().getPath();   // gets the file path
+					data.saveDB(c);
+				}
 			}
 			
 			if( e.getSource() == btnLoad){
+				
+				final JFileChooser chFile = new JFileChooser();
+				int rep = chFile.showOpenDialog(btnLoad.getParent());
+
+				if (rep == JFileChooser.APPROVE_OPTION) {
+
+					String c =  chFile.getSelectedFile().getPath();
+					 data.loadDB(c);; 
+				}
+
 				
 			}
 			
